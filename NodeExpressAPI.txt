@@ -1,0 +1,32 @@
+/**
+ * This is the main Node.js server script for your project
+ * Check out the two endpoints this back-end API provides in fastify.get and fastify.post below
+ */
+
+// const path = require("path");
+const express = require('express');
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+
+let led_estado = false;
+
+app.post('/ligar', (req, res) => {
+  led_estado = true;
+  res.send('LED ligado!');
+});
+
+app.post('/desligar', (req, res) => {
+  led_estado = false;
+  res.send('LED desligado!');
+});
+
+app.get('/estado', (req, res) => {
+  res.send(led_estado ? 'ligado' : 'desligado');
+});
+
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
+});
+
