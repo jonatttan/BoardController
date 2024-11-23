@@ -12,21 +12,17 @@ app.use(express.json());
 
 let led_estado = false;
 
-app.post('/ligar', (req, res) => {
-  led_estado = true;
-  res.send('LED ligado!');
+app.post('/change', (req, res) => {
+  console.log(req.body);
+  let led1 = req.body.led1;
+  led_estado = led1;
+  res.send(true);
 });
 
-app.post('/desligar', (req, res) => {
-  led_estado = false;
-  res.send('LED desligado!');
-});
-
-app.get('/estado', (req, res) => {
-  res.send(led_estado ? 'ligado' : 'desligado');
+app.get('/state', (req, res) => {
+  res.json({led1: led_estado});
 });
 
 app.listen(port, () => {
-  console.log(`Servidor rodando na porta ${port}`);
+  console.log(`Server run on port ${port}`);
 });
-

@@ -15,6 +15,18 @@ Mas falando sério, vejo várias aplicações para esse projeto, mas sei que mai
 
 
 ## Como funciona?
-ESP: Consulta via get em /estado e verifica a string de retorno, se igual a "ligado", define a interface como ativada, do contrário, desativada.
+ESP: Consulta via get em /state, recebe uma string, decodifica em json e verifica o valor booleano atribuído a "led1". Na sequência, atribui esse valor ao único pino utilizado no projeto.
 
-API: Por hora, a comunicação com a API pode ser feita usando ferramentas como Postman ou Insomnia, acessando o endereço/endpiont. Para consultar, faça um get para endereco_api/estado, como a ESP faz. Para ativar a única propriedade existente, faça um post para endereco_api/ligar. Para desligar, faça um post para endereco_api/desligar.
+API: Por hora, a comunicação com a API pode ser feita usando ferramentas como Postman ou Insomnia, acessando o endereço/endpiont. Para consultar, faça um get para endereco_api/state, como a ESP faz. Para modificar a única propriedade existente, faça um post para endereco_api/change incluindo no body da requisição o json abaixo alternando o boolean.
+```json
+{ 
+	"led1": true
+}
+```
+
+## Evoluções:
+Inicialmente a API era mais simples, retornado no get apenas "ligado"/ "desligado" de acordo com o booleano avaliado. O post era sem body, sendo os endpoints "/ligar" e "/desligar" para alterar o estado.
+
+O código foi adequado para receber e enviar objetos json, ampliando assim suas capacidades, agora com apenas dois endpoints: get "/state" e post "/change". Por hora manipula e lê apenas uma propriedade, mas a intenção seria que o ESP8266 agregue mais funções com relés e sensores e envie/receba dados de todos por API.
+
+A próxima etapa do projeto seria desenvolver um app iOS para que possamos ler/enviar dados para a API, pois nela que estará configurado o estado da propriedade, que por enquanto é apenas uma.
